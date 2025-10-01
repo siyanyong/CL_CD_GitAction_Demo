@@ -63,5 +63,5 @@ jobs:
         run: |
           oc project siyanyong-dev
           oc delete all -l app=my-product-page || true
-          oc new-app --docker-image=${{ secrets.DOCKERHUB_USERNAME }}/my-product-page:${{ github.sha }} --name=my-product-page
+          oc new-app --docker-image=${{ secrets.DOCKER_USERNAME }}/my-product-page:${{ github.sha }} --name=my-product-page
           oc expose svc/my-product-page
