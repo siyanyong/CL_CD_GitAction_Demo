@@ -1,24 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const product = {
+    name: "Super Sneakers",
+    price: 79.99,
+    description: "Comfy, cool, and perfect for everyday adventures.",
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+      <main
+        style={{
+          fontFamily: "sans-serif",
+          maxWidth: 720,
+          margin: "40px auto",
+          padding: "0 16px",
+        }}
+      >
+        <h1>{product.name}</h1>
+        <img
+          src="https://via.placeholder.com/640x360?text=Product+Image"
+          alt={product.name}
+          style={{ width: "100%", borderRadius: 8 }}
+        />
+        <p style={{ fontSize: 18 }}>{product.description}</p>
+        <p style={{ fontWeight: "bold", fontSize: 24 }}>
+          ${product.price.toFixed(2)}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          style={{ padding: "12px 20px", fontSize: 16, cursor: "pointer" }}
         >
-          Learn React
-        </a>
-      </header>
+          Add to Cart
+        </button>
+      </main>
     </div>
   );
 }
