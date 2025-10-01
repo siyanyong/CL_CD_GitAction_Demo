@@ -1,20 +1,20 @@
-# Stage 1: Build the React app
+# Stage 1: Build React app
 FROM node:22-alpine AS builder
 WORKDIR /app
-# Install dependencies
 COPY package*.json ./
 RUN npm install
-# Copy source code and build
 COPY . .
-# Build with environment variables injected from OpenShift secrets
-# ENV VITE_CUSTOM_MESSAGE=$VITE_CUSTOM_MESSAGE
 RUN npm run build
-# Stage 2: Serve the built app with 'serve'
-FROM node:22-alpine
-WORKDIR /app
-# Install 'serve' globally
-RUN npm install -g serve
-# Copy built files from builder stage
-COPY --from=builder /app/build /app/build
+
+# Stage 2: Serve with nginx configured for GitHub Pages subpath
+FROM nginx:alpine
+# Copy build files to nginx html folder under /CL_CD_GitAction_Demo
+COPY --from=builder /app/build /usr/share/nginx/html/CL_CD_GitAction_Demo
+
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 8080
-CMD ["serve", "-s", "build", "-l", "8080"]
+
+CMD ["nginx", "-g", "daemon off;"]
+
