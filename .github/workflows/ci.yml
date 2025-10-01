@@ -1,9 +1,9 @@
 name: CI
 on:
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
   push:
-    branches: [ "feature/**" ]
+    branches: ["master", "feature/**"]
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -14,7 +14,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
+          cache: "npm"
       - name: Install dependencies
         run: npm ci
       - name: Run tests
@@ -45,4 +45,4 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-product-page:${{ github.sha }}  
+          docker push ${{ secrets.DOCKER_USERNAME }}/my-product-page:${{ github.sha }}
