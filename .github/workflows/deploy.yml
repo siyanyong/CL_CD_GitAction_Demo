@@ -41,3 +41,45 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+  deploy-in-openshift:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+      # Optional: If you're using static files, create a Docker image
+      - name: Create Dockerfile
+        run: |
+          echo 'FROM nginx:alpine' > Dockerfile
+          echo 'COPY build/ /usr/share/nginx/html' >> Dockerfile
+
+      - name: Build Docker image
+        run: docker build -t my-app:latest .
+
+      - name: Login to OpenShift
+        env:
+          OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+          OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
+        run: |
+          curl -LO "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz"
+          tar -xzf openshift-client-linux.tar.gz -C /usr/local/bin oc
+          oc login --token=$OPENSHIFT_TOKEN --server=$OPENSHIFT_SERVER
+
+      - name: Deploy to OpenShift
+        run: |
+          oc project my-project
+          oc delete all -l app=my-app || true
+          oc new-app my-app=./Dockerfile --name=my-app
+          oc expose svc/my-app
