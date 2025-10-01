@@ -17,4 +17,4 @@ RUN npm install -g serve
 # Copy built files from builder stage
 COPY --from=builder /app/build /app/build
 EXPOSE 8080
-CMD ["serve", "-s", "dist", "-l", "8080"]
+CMD ["serve", "-s", "build", "-l", "8080"]
