@@ -4,8 +4,8 @@ import "./App.css";
 function App() {
   const product = {
     name: "Super Sneakers",
-    price: 79.99,
-    description: "Comfy, cool, and perfect for everyday adventures.",
+    price: 80.99,
+    description: "Comfy, cool, and perfect for everyday adventures. Increase price!",
   };
   return (
     <div className="App">
