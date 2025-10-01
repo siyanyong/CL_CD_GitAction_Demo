@@ -23,3 +23,9 @@ port:
 from 80-tcp
 
 You can run oc commands in the terminal in the top right hand corner.
+
+---
+
+To get the server and token for the openshift secret for github action,
+click on copy login command in the top right hand corner of your name from
+the drop down menu.
