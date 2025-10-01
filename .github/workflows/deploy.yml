@@ -73,7 +73,7 @@ jobs:
 
       - name: Deploy to OpenShift
         run: |
-          oc project my-project
+          oc project siyanyong-dev
           oc delete all -l app=my-app || true
           oc new-app my-app=./Dockerfile --name=my-app
           oc expose svc/my-app
