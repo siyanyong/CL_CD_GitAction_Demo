@@ -59,12 +59,6 @@ jobs:
       - name: Build app
         run: npm run build
 
-      # Optional: If you're using static files, create a Docker image
-      - name: Create Dockerfile
-        run: |
-          echo 'FROM nginx:alpine' > Dockerfile
-          echo 'COPY build/ /usr/share/nginx/html' >> Dockerfile
-
       - name: Build Docker image
         run: docker build -t my-app:latest .
 
